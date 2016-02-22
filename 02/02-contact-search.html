@@ -1,0 +1,98 @@
+<html>
+<head>
+	<title>
+		Hello World !!!!
+	</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react-dom.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>	
+	<!-- <div id=""> -->
+	<div id="content"></div>
+	<script type="text/babel">
+
+var CONTACTS = [
+	{
+		id: 1,
+		name: "na1",
+		phone: "ph1",
+		image: "http://www.polyvore.com/cgi/img-thing?.out=jpg&size=l&tid=89940362"
+	}, {
+		id: 2,
+		name: "nb2",
+		phone: "ph2",
+		image: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTQeZcwYgePSFtjqK68mdc6CRQvQDpjq7TXcY8Sgs93GKnWlJwj-K9q1g"
+	}, {
+		id: 3,
+		name: "nc3",
+		phone: "ph3",
+		image: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcS70Mp_BcfJP856s2UsAWtBG656sr28svZmzb4nr1kReQshMeKnAQ"
+	}, {
+		id: 4,
+		name: "nd4",
+		phone: "ph4",
+		image: "http://icons.iconarchive.com/icons/jonathan-rey/star-wars-characters/256/Java-the-Hutt-icon.png"
+	}
+]
+
+
+var Contact = React.createClass({
+	render:function()
+	{
+		return <li className="contact">
+		<img className="contact-image" src={this.props.image} width="60px" height="60px" />
+		<div className="contact-info">
+			<div className="contact-name">{this.props.name}</div>
+			<div className="contact-phone">{this.props.phone}</div>		
+		</div>
+		</li>
+	}
+})
+
+		var ContactList =  React.createClass({
+			getInitialState: function(){
+				return {
+					displayedContacts: CONTACTS
+				}
+			},
+			handleSearch: function(event){
+				var query = event.target.value.toLowerCase()
+				var displayedContacts = CONTACTS.filter(function(el){
+					var searchValue = el.name.toLowerCase();
+					return searchValue.indexOf(query) !== -1;
+				   })
+				this.setState({
+				displayedContacts: displayedContacts
+				})
+
+			},
+			render: function() {
+				return <div className="contacts">
+				<input type="text" className="search-field" onChange={this.handleSearch}></input>
+					<ul className="contact-list">
+						{
+							this.state.displayedContacts.map(function(el){
+								return <Contact
+								 key={el.id}
+								 name={el.name}
+								 phone={el.phone}
+								 image={el.image}
+								 />
+							})
+						}
+					</ul>
+				</div>
+				}
+		});
+
+		ReactDOM.render(
+		<div>
+			<ContactList/>
+		</div>	,
+			document.getElementById("content")
+		)
+	</script>
+</body>
+</html>
